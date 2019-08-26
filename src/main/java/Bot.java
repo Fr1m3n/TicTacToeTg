@@ -1,3 +1,6 @@
+import Conditions.Condition;
+import Conditions.TestCondition1;
+import Entities.UserEntity;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.api.objects.Message;
@@ -7,17 +10,28 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 
 public class Bot extends TelegramLongPollingBot {
 
+    private HashMap<String, Condition> conditionMap;
 
     public void onUpdateReceived(Update update) {
-        sendMsg(update.getMessage().getChatId().toString(),
+        Long chatId = update.getMessage().getChatId();
+        sendMsg(chatId.toString(),
                 "Hoooy");
+        UserEntity user = new UserEntity(chatId);
+        conditionMap.get(user.getCondition()).f(update);
     }
 
+    /**
+     * Функция для инициализации хеш таблицы состояний
+     */
+    public void initConditions(){
+        conditionMap.put("start", new TestCondition1());
+    }
 
     /**
      * Функция отправки сообщения

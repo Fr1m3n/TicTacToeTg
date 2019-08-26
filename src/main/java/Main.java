@@ -18,6 +18,7 @@ public class Main {
         try {
             BotSession session = tgBotsApi.registerBot(new Bot());
         } catch (TelegramApiRequestException e) {
+            // TODO: обработать исключение
             e.printStackTrace();
         }
     }

@@ -22,6 +22,7 @@ public class DatabaseManager {
                     DB_PASS
             );
         } catch (SQLException e) {
+            // TODO: обработать исключение
             e.printStackTrace();
         }
     }
